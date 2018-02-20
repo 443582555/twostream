@@ -149,8 +149,7 @@ class Motion_DataLoader():
             transforms.Scale([224,224]),
             transforms.ToTensor(),
             ]))
-        print '==> Training data :',len(training_set),' videos',training_set[1][0].size()
-
+        
         train_loader = DataLoader(
             dataset=training_set, 
             batch_size=self.BATCH_SIZE,
@@ -168,7 +167,6 @@ class Motion_DataLoader():
             transforms.Scale([224,224]),
             transforms.ToTensor(),
             ]))
-        print '==> Validation data :',len(validation_set),' frames',validation_set[1][1].size()
         #print validation_set[1]
 
         val_loader = DataLoader(

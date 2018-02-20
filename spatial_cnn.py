@@ -33,15 +33,14 @@ parser.add_argument('--start-epoch', default=0, type=int, metavar='N', help='man
 def main():
     global arg
     arg = parser.parse_args()
-    print arg
+    print (arg)
 
     #Prepare DataLoader
     data_loader = dataloader.spatial_dataloader(
-                        BATCH_SIZE=arg.batch_size,
-                        num_workers=8,
-                        path='/home/ubuntu/data/UCF101/spatial_no_sampled/',
-                        ucf_list ='/home/ubuntu/cvlab/pytorch/ucf101_two_stream/github/UCF_list/',
-                        ucf_split ='01', 
+                        BATCH_SIZE=1, num_workers=1, 
+                                path='/home/yifu/Documents/Mycode/python/two-stream-pytorch/datasets/jpegs_256/', 
+                                ucf_list='/home/yifu/Documents/Mycode/python/two-stream-pytorch/twostream/UCF_list/',
+                                ucf_split='01'
                         )
     
     train_loader, test_loader, test_video = data_loader.run()
