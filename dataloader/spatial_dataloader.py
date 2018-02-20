@@ -6,6 +6,22 @@ import random
 from split_train_test_video import *
 from skimage import io, color, exposure
 
+def load_ucf_image(self,video_name, index):
+        if video_name.split('_')[0] == 'HandstandPushups':
+            n,g = video_name.split('_',1)
+            name = 'HandStandPushups_'+g
+            path = self.root_dir + 'HandstandPushups'+'/separated_images/v_'+name+'/v_'+name+'_'
+        else:
+            path = self.root_dir + video_name.split('_')[0]+'/separated_images/v_'+video_name+'/v_'+video_name+'_'
+
+        img = Image.open(path +str(index)+'.jpg')
+        transformed_img = self.transform(img)
+        img.close()
+
+        return transformed_img
+
+
+
 class spatial_dataset(Dataset):  
     def __init__(self, dic, root_dir, mode, transform=None):
  
@@ -17,21 +33,6 @@ class spatial_dataset(Dataset):
 
     def __len__(self):
         return len(self.keys)
-
-    def load_ucf_image(self,video_name, index):
-        if video_name.split('_')[0] == 'HandstandPushups':
-            n,g = video_name.split('_',1)
-            name = 'HandStandPushups_'+g
-            path = self.root_dir + 'HandstandPushups'+'/separated_images/v_'+name+'/v_'+name+'_'
-        else:
-            path = self.root_dir + video_name.split('_')[0]+'/separated_images/v_'+video_name+'/v_'+video_name+'_'
-         
-        img = Image.open(path +str(index)+'.jpg')
-        transformed_img = self.transform(img)
-        img.close()
-
-        return transformed_img
-
     def __getitem__(self, idx):
 
         if self.mode == 'train':
@@ -161,7 +162,8 @@ class spatial_dataloader():
 if __name__ == '__main__':
     
     dataloader = spatial_dataloader(BATCH_SIZE=1, num_workers=1, 
-                                path='/home/ubuntu/data/UCF101/spatial_no_sampled/', 
+                                path='/data/yfluo/UCF/jpegs_256', 
                                 ucf_list='/home/ubuntu/cvlab/pytorch/ucf101_two_stream/github/UCF_list/',
                                 ucf_split='01')
     train_loader,val_loader,test_video = dataloader.run()
+
